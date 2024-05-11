@@ -12,7 +12,7 @@ static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const Bool viewontag         = True;     /* Switch view on tag switch */
-static const char *fonts[]          = { "SauceCodePro Nerd Font Mono:size=13", "WenQuanYi Micro Hei:size=10" };
+static const char *fonts[]          = { "SauceCodePro Nerd Font Mono:size=13", "WenQuanYi Micro Hei:size=12" };
 static const char dmenufont[]       = "SauceCodePro Nerd Font Mono:size=13";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -79,8 +79,8 @@ static const Key keys[] = {
     { WIN,							XK_g,	   spawn,		   {.v = chromecmd}},
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_h,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_l,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_h,      focusstackvis,     {.i = +1 } },
+	{ MODKEY,                       XK_l,      focusstackvis,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_j,      setmfact,       {.f = -0.05} },
