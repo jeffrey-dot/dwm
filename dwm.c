@@ -210,6 +210,7 @@ static void grabbuttons(Client *c, int focused);
 static void grabkeys(void);
 static void hide(const Arg *arg);
 static void hidewin(Client *c);
+static void restorewin(const Arg *arg);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
@@ -322,6 +323,10 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+
+#define hiddenWinStackMax 100
+static int hiddenWinStackTop = -1;
+static Client *hiddenWinStack[hiddenWinStackMax];
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -1237,6 +1242,8 @@ hidewin(Client *c) {
 	if (!c || HIDDEN(c))
 		return;
 
+    hiddenWinStack[++hiddenWinStackTop] = c;
+
 	Window w = c->win;
 	static XWindowAttributes ra, ca;
 
@@ -1252,6 +1259,24 @@ hidewin(Client *c) {
 	XSelectInput(dpy, root, ra.your_event_mask);
 	XSelectInput(dpy, w, ca.your_event_mask);
 	XUngrabServer(dpy);
+}
+
+void restorewin(const Arg *arg) {
+    int i = hiddenWinStackTop;
+    while (i > -1) {
+        if (HIDDEN(hiddenWinStack[i]) &&
+            hiddenWinStack[i]->tags == selmon->tagset[selmon->seltags]) {
+            showwin(hiddenWinStack[i]);
+            focus(hiddenWinStack[i]);
+            restack(selmon);
+            for (int j = i; j < hiddenWinStackTop; ++j) {
+                hiddenWinStack[j] = hiddenWinStack[j + 1];
+            }
+            --hiddenWinStackTop;
+            return;
+        }
+        --i;
+    }
 }
 
 void

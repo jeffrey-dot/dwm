@@ -85,6 +85,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_j,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_k,      setmfact,       {.f = +0.05} },
+	{ MODKEY,						XK_o,      hide, 	   {0}},
+    {MODKEY|ShiftMask, 			    XK_o, 	   restorewin, 	   {0}},
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ WIN,							XK_l,      killclient,     {0} },
